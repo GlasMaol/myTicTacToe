@@ -134,11 +134,11 @@ function checkForDraw() {
 //Funktion som förbereder spelet inför start
 
 function prepGame() {
-    let gameArea = document.querySelector('#gameArea')
-    gameArea.classList.toggle('d-none');
+    let gameAreaRef = document.querySelector('#gameArea')
+    gameAreaRef.classList.toggle('d-none');
 
-    let btn = document.querySelector('.btn');
-    btn.addEventListener('click', initiateGame) 
+    let btnRef = document.querySelector('.btn');
+    btnRef.addEventListener('click', initiateGame)
 }
 prepGame();
 
@@ -147,7 +147,15 @@ function validateForm() {
 }
 
 function initiateGame() {
-//console.log('it works!'); //anropoar initiateGame i prepGame för att kolla om knappen trycks
+    let formRef = document.querySelector('#theForm')
+    formRef.classList.add('d-none');
+
+    let spelplanRef = document.querySelector('#gameArea');
+    spelplanRef.classList.remove('d-none');
+
+    
+
+    //console.log('it works!'); //anropoar initiateGame i prepGame för att kolla om knappen trycks
 }
 
 function startGame() {

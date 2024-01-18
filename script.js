@@ -153,7 +153,20 @@ function initiateGame() {
     let spelplanRef = document.querySelector('#gameArea');
     spelplanRef.classList.remove('d-none');
 
+    let errorMsgRef = document.querySelector('#errorMsg');
+    errorMsgRef.innerHTML = '';
+
+    oGameData.nickNamePlayerOne = document.querySelector('#nick1').value;
+    oGameData.nickNamePlayerTwo = document.querySelector('#nick2').value;
+    oGameData.colorPlayerOne = document.querySelector('#color1').value;
+    oGameData.colorPlayerTwo = document.querySelector('#color2').value;
+
     
+
+    /*console.log(oGameData.nickNamePlayerOne);
+    console.log(oGameData.nickNamePlayerTwo);
+    console.log(oGameData.colorPlayerOne);
+    console.log(oGameData.colorPlayerTwo);*/
 
     //console.log('it works!'); //anropoar initiateGame i prepGame för att kolla om knappen trycks
 }

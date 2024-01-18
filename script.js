@@ -17,7 +17,7 @@ function initGlobalObject() {
 
     //Datastruktur för vilka platser som är lediga respektive har brickor
     //Genom at fylla i här med antingen X eler O kan ni testa era rättningsfunktioner 
-    oGameData.gameField = ['X', 'X', 'X', '', '', '', '', '', ''];
+    oGameData.gameField = ['', '', '', '', '', '', '', '', ''];
 
     /* Testdata för att testa rättningslösning */
     //oGameData.gameField = ['X', 'X', 'X', '', '', '', '', '', ''];
@@ -161,7 +161,35 @@ function initiateGame() {
     oGameData.colorPlayerOne = document.querySelector('#color1').value;
     oGameData.colorPlayerTwo = document.querySelector('#color2').value;
 
-    
+    let tdElementsRef = document.querySelectorAll('td');
+    tdElementsRef.forEach(td => {
+        td.textContent = '';
+    })
+
+    let playerChar = null;
+    let playerName = null;
+
+    let randomPlayer = Math.random();
+    if (randomPlayer < 0.5) {
+        playerChar = oGameData.playerOne;
+        playerName = oGameData.nickNamePlayerOne;
+        oGameData.currentPlayer = oGameData.playerOne;
+    } else {
+        playerChar = oGameData.playerTwo;
+        playerName = oGameData.nickNamePlayerTwo;
+        oGameData.currentPlayer = oGameData.playerTwo;
+    }
+
+    document.querySelector('h1').textContent = 'Aktuell spelare är ' + playerName;
+
+    let tableListenerRef = document.querySelector('.ml-auto');
+    tableListenerRef.addEventListener('click', executeMove);
+
+    /*document.querySelector('.jumbotron h1').textContent = 'Aktuell spelare är ' + playerName';*/
+
+    /*console.log('Player Character:', playerChar);
+    console.log('Player Name:', playerName);
+    console.log('Current Player:', oGameData.currentPlayer);*/
 
     /*console.log(oGameData.nickNamePlayerOne);
     console.log(oGameData.nickNamePlayerTwo);
@@ -169,6 +197,10 @@ function initiateGame() {
     console.log(oGameData.colorPlayerTwo);*/
 
     //console.log('it works!'); //anropoar initiateGame i prepGame för att kolla om knappen trycks
+}
+
+function executeMove(){
+    console.log('Hej!');
 }
 
 function startGame() {

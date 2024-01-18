@@ -17,8 +17,8 @@ function initGlobalObject() {
 
     //Datastruktur för vilka platser som är lediga respektive har brickor
     //Genom at fylla i här med antingen X eler O kan ni testa era rättningsfunktioner 
-    oGameData.gameField = ['', '', '', '', '', '', '', '', ''];
-    
+    oGameData.gameField = ['X', 'X', 'X', '', '', '', '', '', ''];
+
     /* Testdata för att testa rättningslösning */
     //oGameData.gameField = ['X', 'X', 'X', '', '', '', '', '', ''];
     //oGameData.gameField = ['X', '', '', 'X', '', '', 'X', '', ''];
@@ -68,17 +68,17 @@ function initGlobalObject() {
  * returnerar 3 om det är oavgjort.
  * Funktionen tar inte emot några värden.
  */
-function checkForGameOver() {   
+function checkForGameOver() {
     //Kontrollerar om "X" vunnit genom att köra rättningsfunktionerna, om så är fallet returneras 1
-    if (checkWinner('X')){
-       return 1;
+    if (checkWinner('X')) {
+        return 1;
     }
     //Kontrollerar om "O" vunnit genom att köra rättningsfunktionerna, om så är fallet returneras 2
-    if (checkWinner('O')){
+    if (checkWinner('O')) {
         return 2;
     }
     //Kontrollerar om spelet är oavgjort, returnerar isåfall 3
-    if(checkForDraw()) {
+    if (checkForDraw()) {
         return 3;
     }
     //Annars returneras 0, och spelet fortlöper
@@ -94,28 +94,63 @@ function checkForGameOver() {
 //som motsvarar nuvarande combo innehåller playerIn. Om sant, ändra värdet på flaggan.
 //Returnera flaggan isWinner
 function checkWinner(playerIn) {
+    const winningCombos = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+        [1, 4, 7],
+        [2, 5, 8],
+        [3, 6, 9],
+        [1, 5, 9],
+        [3, 5, 7]
+    ];
 
+    let isWinner = false;
+
+    for (let i = 0; i < winningCombos.length; i++) {
+        let combo = winningCombos[i];
+        let a = oGameData.gameField[combo[0] - 1];
+        let b = oGameData.gameField[combo[1] - 1];
+        let c = oGameData.gameField[combo[2] - 1];
+
+        if (playerIn === a && playerIn === b && playerIn === c) {
+            isWinner = true;
+            break;
+        }
+    }
+
+    return isWinner;
 }
 
 //Kontrollera om alla platser i oGameData.GameField är fyllda. Om sant returnera true, annars false.
 function checkForDraw() {
-
+    if (oGameData.gameField.includes('')) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 //Funktion som förbereder spelet inför start
-function prepGame() {
 
+function prepGame() {
+    let gameArea = document.querySelector('#gameArea')
+    gameArea.classList.toggle('d-none');
+
+    let btn = document.querySelector('.btn');
+    btn.addEventListener('click', initiateGame) 
 }
+prepGame();
 
 function validateForm() {
 
 }
 
 function initiateGame() {
-
+//console.log('it works!'); //anropoar initiateGame i prepGame för att kolla om knappen trycks
 }
 
-function startGame () {
+function startGame() {
 
 }
 
@@ -130,3 +165,19 @@ function timer() {
 function gameOver() {
 
 }
+
+/*const logoRef = document.querySelector('.logo');
+
+logoRef.addEventListener('click', () => {
+    console.log('found you!');
+});*/
+
+/* 15 */
+/*const articleRefs = document.querySelectorAll('main article');
+
+articleRefs.forEach(article => {
+    article.addEventListener('click', () => {
+        const textRef = article.querySelector('h3');
+        console.log('Hi! Im article ' + textRef.textContent);
+    });
+});*/

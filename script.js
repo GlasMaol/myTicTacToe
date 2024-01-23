@@ -187,18 +187,18 @@ function initiateGame() {
 }
 
 
-    /*document.querySelector('.jumbotron h1').textContent = 'Aktuell spelare är ' + playerName';*/
+/*document.querySelector('.jumbotron h1').textContent = 'Aktuell spelare är ' + playerName';*/
 
-    /*console.log('Player Character:', playerChar);
-    console.log('Player Name:', playerName);
-    console.log('Current Player:', oGameData.currentPlayer);*/
+/*console.log('Player Character:', playerChar);
+console.log('Player Name:', playerName);
+console.log('Current Player:', oGameData.currentPlayer);*/
 
-    /*console.log(oGameData.nickNamePlayerOne);
-    console.log(oGameData.nickNamePlayerTwo);
-    console.log(oGameData.colorPlayerOne);
-    console.log(oGameData.colorPlayerTwo);*/
+/*console.log(oGameData.nickNamePlayerOne);
+console.log(oGameData.nickNamePlayerTwo);
+console.log(oGameData.colorPlayerOne);
+console.log(oGameData.colorPlayerTwo);*/
 
-    //console.log('it works!'); //anropoar initiateGame i prepGame för att kolla om knappen trycks
+//console.log('it works!'); //anropoar initiateGame i prepGame för att kolla om knappen trycks
 
 function executeMove(event) {
     if (event.target.tagName.toLowerCase() !== 'td') {
@@ -278,23 +278,8 @@ function gameOver(result) {
 <p>Spela igen?</p>
 `;
 
-//Reinitialize the global object
-initGlobalObject();
+ //Reinitialize the global object
+document.querySelector(`.jumbotron h1`).innerHTML = `${winnerMessageRef} <br> Spela igen?`;
+    initGlobalObject()
+
 }
-
-/*const logoRef = document.querySelector('.logo');
-
-logoRef.addEventListener('click', () => {
-    console.log('found you!');
-});*/
-
-/* 15 */
-/*const articleRefs = document.querySelectorAll('main article');
-
-articleRefs.forEach(article => {
-    article.addEventListener('click', () => {
-        const textRef = article.querySelector('h3');
-        console.log('Hi! Im article ' + textRef.textContent);
-    });
-});*/
-

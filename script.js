@@ -184,6 +184,8 @@ function initiateGame() {
 
     let tableListenerRef = document.querySelector('.ml-auto');
     tableListenerRef.addEventListener('click', executeMove);
+}
+
 
     /*document.querySelector('.jumbotron h1').textContent = 'Aktuell spelare är ' + playerName';*/
 
@@ -197,7 +199,6 @@ function initiateGame() {
     console.log(oGameData.colorPlayerTwo);*/
 
     //console.log('it works!'); //anropoar initiateGame i prepGame för att kolla om knappen trycks
-}
 
 function executeMove(event) {
     if (event.target.tagName.toLowerCase() !== 'td') {
@@ -213,7 +214,7 @@ function executeMove(event) {
     oGameData.gameField[position] = oGameData.currentPlayer;
     clickedCell.textContent = oGameData.currentPlayer;
 
-    changePlayer();
+    changePlayer(position);//position måste vara här för att changePlayer ska fungera.
 
     const result = checkForGameOver();
     if (result !== 0) {
@@ -225,17 +226,60 @@ function startGame() {
 
 }
 
-function changePlayer() {
-    
-    //console.log('Hej');
+function changePlayer(position) {
+    console.log('clicked position', position);
+    const currentPlayerSymbol = oGameData.currentPlayer;// Kontrollera vem den nuvarande spelaren är
+
+    const currentPlayerColor = (currentPlayerSymbol === oGameData.playerOne) ? oGameData.colorPlayerOne : oGameData.colorPlayerTwo;// Hämta färgen för den nuvarande spelaren
+    const clickedCell = document.querySelector(`[data-id='${position}']`);
+
+    clickedCell.style.backgroundColor = currentPlayerColor;
+    clickedCell.textContent = currentPlayerSymbol;
+    oGameData.currentPlayer = (currentPlayerSymbol === oGameData.playerOne) ? oGameData.playerTwo : oGameData.playerOne;
+
+    if (oGameData.currentPlayer === oGameData.playerOne) {
+        document.querySelector('h1').textContent = 'Aktuell spelare är ' + oGameData.nickNamePlayerOne;
+    } else {
+        document.querySelector('h1').textContent = 'Aktuell spelare är ' + oGameData.nickNamePlayerTwo;
+    }
 }
 
 function timer() {
 
 }
 
-function gameOver() {
+function gameOver(result) {
+    //Remove click listener on the table
+    const tableListenerRef = document.querySelector('.ml-auto');
+    tableListenerRef.removeEventListener('click', executeMove);
 
+    //Remove the "d-none" class from the form
+    const formRef = document.querySelector('#theForm');
+    formRef.classList.remove('d-none');
+
+    //Add the "d-none" class to the game area
+    const gameAreaRef = document.querySelector('#gameArea');
+    gameAreaRef.classList.add('d-none');
+
+    //Determine the winner and display a message
+    let winnerMessageRef = '';
+    if (result === 1) {
+        winnerMessageRef = `${oGameData.nickNamePlayerOne} (Spelare 1) har vunnit!`
+    } else if (result === 2) {
+        winnerMessageRef = `${oGameData.nickNamePlayerTwo} (Spelare 2) har vunnit!`
+    } else {
+        winnerMessageRef = 'Det blev oavgjort!'
+    }
+
+    //Display the winner message in the jumbotron
+    const jumbotronRef = document.querySelector('.jumbotron');
+    jumbotronRef.innerHTML = `
+<h1>${winnerMessageRef}</h1>
+<p>Spela igen?</p>
+`;
+
+//Reinitialize the global object
+initGlobalObject();
 }
 
 /*const logoRef = document.querySelector('.logo');
@@ -253,3 +297,4 @@ articleRefs.forEach(article => {
         console.log('Hi! Im article ' + textRef.textContent);
     });
 });*/
+

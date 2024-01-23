@@ -199,8 +199,26 @@ function initiateGame() {
     //console.log('it works!'); //anropoar initiateGame i prepGame för att kolla om knappen trycks
 }
 
-function executeMove(){
-    console.log('Hej!');
+function executeMove(event) {
+    if (event.target.tagName.toLowerCase() !== 'td') {
+        return; // Do nothing if the click did not happen on a td
+    }
+    const clickedCell = event.target;
+    if (clickedCell.textContent !== '') {
+        return;//checks whether the clicked cell is already occupied and exits if marked.
+    }
+
+    const position = parseInt(clickedCell.getAttribute('data-id'));//retrieves the value of the data-id attribute from the clicked cell. converted to an integer using parseInt because getAttribute returns a string.
+
+    oGameData.gameField[position] = oGameData.currentPlayer;
+    clickedCell.textContent = oGameData.currentPlayer;
+
+    changePlayer();
+
+    const result = checkForGameOver();
+    if (result !== 0) {
+        gameOver(result);
+    }
 }
 
 function startGame() {
@@ -208,7 +226,8 @@ function startGame() {
 }
 
 function changePlayer() {
-
+    
+    //console.log('Hej');
 }
 
 function timer() {

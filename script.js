@@ -142,19 +142,39 @@ function prepGame() {
 }
 prepGame();
 
+
 function validateForm() {
 
 }
 
 function initiateGame() {
+
+    /*let playerColorInput1 = document.querySelector('#color1'); // Corrected variable name
+    let playerColorInput2 = document.querySelector('#color2'); // Corrected variable name
+    let playerSymbolInput = document.querySelector('#nick1');
+    let playerNicknameInput = document.querySelector('#nick2');
+
+    playerColorInput1.classList.add('d-none'); // Hide color input for player 1
+    playerColorInput2.classList.add('d-none'); // Hide color input for player 2
+    playerSymbolInput.classList.add('d-none'); // Hide symbol input for player 1
+    playerNicknameInput.classList.add('d-none');
+
+    oGameData.gameField = ['', '', '', '', '', '', '', '', ''];//new
+    oGameData.currentPlayer = '';//new*/
+
     let formRef = document.querySelector('#theForm')
     formRef.classList.add('d-none');
 
-    let spelplanRef = document.querySelector('#gameArea');
-    spelplanRef.classList.remove('d-none');
+    let gameAreaRef = document.querySelector('#gameArea');
+    gameAreaRef.classList.remove('d-none');
 
-    let errorMsgRef = document.querySelector('#errorMsg');
-    errorMsgRef.innerHTML = '';
+    /*let btnRef = document.querySelector('.btn');//new
+    btnRef.classList.add('d-none');//new*/
+
+    /*let errorMsgRef = document.querySelector('#errorMsg');
+    errorMsgRef.innerHTML = '';*/
+
+    document.querySelector('p').classList.add('d-none');
 
     oGameData.nickNamePlayerOne = document.querySelector('#nick1').value;
     oGameData.nickNamePlayerTwo = document.querySelector('#nick2').value;
@@ -164,6 +184,7 @@ function initiateGame() {
     let tdElementsRef = document.querySelectorAll('td');
     tdElementsRef.forEach(td => {
         td.textContent = '';
+        td.style.backgroundColor = ''; //new
     })
 
     let playerChar = null;
@@ -184,7 +205,11 @@ function initiateGame() {
 
     let tableListenerRef = document.querySelector('.ml-auto');
     tableListenerRef.addEventListener('click', executeMove);
+
+    // Spela igen fix. ! Det gör du genom att återigen anropa initiateGame() om spelaren trycker på knappen. I din initateGame() så läser du redan in alla td:s och rensar dem
+    //add d-none to td, playerColor and on click på starta spelet så aktiveras dessa.
 }
+
 
 
 /*document.querySelector('.jumbotron h1').textContent = 'Aktuell spelare är ' + playerName';*/
@@ -248,18 +273,15 @@ function timer() {
 
 }
 
-function gameOver(result) {
+/*function gameOver(result) {
     //Remove click listener on the table
-    const tableListenerRef = document.querySelector('.ml-auto');
+    let tableListenerRef = document.querySelector('.ml-auto');
     tableListenerRef.removeEventListener('click', executeMove);
 
     //Remove the "d-none" class from the form
-    const formRef = document.querySelector('#theForm');
-    formRef.classList.remove('d-none');
-
+    document.querySelector('#theForm').classList.remove('d-none');
     //Add the "d-none" class to the game area
-    const gameAreaRef = document.querySelector('#gameArea');
-    gameAreaRef.classList.add('d-none');
+    document.querySelector('#gameArea').classList.add('d-none');
 
     //Determine the winner and display a message
     let winnerMessageRef = '';
@@ -267,19 +289,43 @@ function gameOver(result) {
         winnerMessageRef = `${oGameData.nickNamePlayerOne} (Spelare 1) har vunnit!`
     } else if (result === 2) {
         winnerMessageRef = `${oGameData.nickNamePlayerTwo} (Spelare 2) har vunnit!`
-    } else {
+    } else if (result === 3) {
         winnerMessageRef = 'Det blev oavgjort!'
     }
 
     //Display the winner message in the jumbotron
-    const jumbotronRef = document.querySelector('.jumbotron');
-    jumbotronRef.innerHTML = `
-<h1>${winnerMessageRef}</h1>
-<p>Spela igen?</p>
-`;
+    document.querySelector('.jumbotron').innerHTML = '<h1>' + winnerMessage + '</h1><p>Spela igen?</p>';
 
- //Reinitialize the global object
-document.querySelector(`.jumbotron h1`).innerHTML = `${winnerMessageRef} <br> Spela igen?`;
-    initGlobalObject()
+    oGameData.gameField = ['', '', '', '', '', '', '', '', ''];
+    oGameData.currentPlayer = '';
 
+    document.querySelectorAll('td').forEach(cell => cell.innerHTML = cell.style.backgroundColor = '');
+}*/
+
+//code från Jonas
+function gameOver(result) {
+    let winnerMessage = '';
+
+    let tableListenerRef = document.querySelector('.ml-auto');
+    tableListenerRef.removeEventListener('click', executeMove);
+
+    document.querySelector('#theForm').classList.remove('d-none');
+    document.querySelector('#gameArea').classList.add('d-none');
+
+    if (result === 1) {
+        winnerMessage = oGameData.resultMessage = oGameData.nickNamePlayerOne + ' har vunnit!';
+    } else if (result === 2) {
+        winnerMessage = oGameData.resultMessage = oGameData.nickNamePlayerTwo + ' har vunnit!';
+    } else if (result === 3) {
+        winnerMessage = 'Spelet slutade oavgjort!';
+    }
+
+    document.querySelector('.jumbotron').innerHTML = '<h1>' + winnerMessage + '</h1><p>Spela igen?</p>';
+
+    // Nollställ endast det som behövs för att starta om spelet
+    oGameData.gameField = ['', '', '', '', '', '', '', '', ''];
+    oGameData.currentPlayer = ''; // Återställ aktuell spelare
+
+    // Töm innehållet av varje cell i spelplanen           // Återställ färg om du har satt en
+    document.querySelectorAll('td').forEach(cell => cell.innerHTML = cell.style.backgroundColor = '');
 }
